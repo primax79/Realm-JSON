@@ -300,7 +300,9 @@ static NSInteger const kCreateBatchSize = 100;
         if (!mapping) {
             SEL selector = NSSelectorFromString(@"JSONInboundMappingDictionary");
             if ([self respondsToSelector:selector]) {
-                mapping = MCValueFromInvocation(self, selector);
+                NSMutableDictionary * temp = [[self mc_defaultInboundMapping] mutableCopy];
+                [temp addEntriesFromDictionary:  MCValueFromInvocation(self, selector)];
+                mapping = [temp copy];
             }
             else {
                 mapping = [self mc_defaultInboundMapping];
