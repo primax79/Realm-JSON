@@ -172,25 +172,36 @@ static NSInteger const kCreateBatchSize = 100;
 			if (transformer) {
 				value = [transformer transformedValue:value];
 			}
-			else if ([propertyClass isSubclassOfClass:[RLMObject class]]) {
-				if (!value || [value isEqual:[NSNull null]]) {
-					continue;
-				}
 
-				if ([value isKindOfClass:[NSDictionary class]]) {
-					value = [propertyClass mc_createObjectFromJSONDictionary:value];
-				}
-			}
-			else if ([propertyClass isSubclassOfClass:[RLMArray class]]) {
-				RLMProperty *property = [self mc_propertyForPropertyKey:objectKeyPath];
-				Class elementClass = [RLMSchema classForString: property.objectClassName];
-
-				NSMutableArray *array = [NSMutableArray array];
-				for (id item in(NSArray*) value) {
-					[array addObject:[elementClass mc_createObjectFromJSONDictionary:item]];
-				}
-				value = [array copy];
-			}
+            else if ([propertyClass isSubclassOfClass:[RLMObject class]]) {
+                if (!value || [value isEqual:[NSNull null]]) {
+                    continue;
+                }
+                
+                if ([value isKindOfClass:[NSDictionary class]]) {
+                    value = [propertyClass mc_createObjectFromJSONDictionary:value];
+                } else if ([value isKindOfClass:[NSNumber class]] || [value isKindOfClass:[NSString class]]) {
+                    value = [propertyClass objectForPrimaryKey:value];
+                }
+            }
+            else if ([propertyClass isSubclassOfClass:[RLMArray class]]) {
+                RLMProperty *property = [self mc_propertyForPropertyKey:objectKeyPath];
+                Class elementClass = [RLMSchema classForString: property.objectClassName];
+                
+                NSMutableArray *array = [NSMutableArray array];
+                for (id item in(NSArray*) value) {
+                    id value_item;
+                    if ([item isKindOfClass:[NSDictionary class]]) {
+                        value_item = [elementClass mc_createObjectFromJSONDictionary:item];
+                    } else if ([item isKindOfClass:[NSNumber class]] || [item isKindOfClass:[NSString class]]) {
+                        value_item = [elementClass objectForPrimaryKey:item];
+                    }
+                    
+                    if (value_item)
+                        [array addObject:value_item];
+                }
+                value = [array copy];
+            }
 
 			if ([objectKeyPath isEqualToString:@"self"]) {
 				return value;
