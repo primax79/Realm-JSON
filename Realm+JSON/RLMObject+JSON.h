@@ -15,7 +15,7 @@
 + (NSArray *)createOrUpdateInRealm:(RLMRealm *)realm withJSONArray:(NSArray *)array;
 + (instancetype)createOrUpdateInRealm:(RLMRealm *)realm withJSONDictionary:(NSDictionary *)dictionary;
 + (instancetype)objectInRealm:(RLMRealm *)realm withPrimaryKeyValue:(id)primaryKeyValue;
-
++ (id)mc_createObjectFromJSONDictionary:(NSDictionary *)dictionary;
 - (instancetype)initWithJSONDictionary:(NSDictionary *)dictionary;
 - (NSDictionary *)JSONDictionary;
 
