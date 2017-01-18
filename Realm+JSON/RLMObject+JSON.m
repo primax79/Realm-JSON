@@ -156,7 +156,13 @@ static NSInteger const kCreateBatchSize = 100;
 
 #pragma mark - Private
 
++(NSDictionary *)jsonPreprocessing:(NSDictionary *)dictionary{
+    return dictionary;
+}
+
 + (id)mc_createObjectFromJSONDictionary:(NSDictionary *)dictionary {
+    dictionary = [[self class] jsonPreprocessing:dictionary];
+    
 	NSMutableDictionary *result = [NSMutableDictionary dictionary];
 	NSDictionary *mapping = [[self class] mc_inboundMapping];
 
