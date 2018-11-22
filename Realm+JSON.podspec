@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name     = 'Realm+JSON'
-  s.version  = '0.2.14.1'
-  s.ios.deployment_target     = '7.0'
+  s.version  = '3.0'
+  s.ios.deployment_target     = '8.0'
   s.osx.deployment_target     = '10.9'
   s.watchos.deployment_target = '2.0'
   s.license  = { :type => 'MIT', :file => 'LICENSE' }
