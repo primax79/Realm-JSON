@@ -12,8 +12,14 @@ Pod::Spec.new do |s|
   s.source   = {
     :git => 'https://github.com/matthewcheok/Realm-JSON.git',
     :branch => 'master',
-    :tag => s.version.to_s
+    :tag => "v"+s.version.to_s
   }
+
+  s.source           = {
+    :git => 'git@gitlab.netfarm.it:netfarm/ios/ntf_support.git',
+    :tag => "v"+s.version.to_s 
+  }
+
   s.source_files = 'Realm+JSON/*.{h,m}'
   s.public_header_files = 'Realm+JSON/*.h'
 
